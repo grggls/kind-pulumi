@@ -71,12 +71,34 @@ Pulumi will provision the cluster components: Istio, Backstage, Grafana, and Ecl
 
 ## CI/CD Pipeline
 
-This project uses **GitHub Actions** for CI/CD automation. The workflow is defined in `.github/workflows/deploy.yml`, covering:
+This project uses **GitHub Actions** for CI/CD automation. The workflow is defined in:
 
-- Linting and formatting
-- Pulumi preview and update
-- Provisioning a local `kind` cluster
-- Test stubs for future integration
+- `.github/workflows/deploy.yml`: for provisioning with Pulumi
+- `.github/workflows/test.yml`: for verifying that services are accessible and running correctly
+
+## Pre-commit Hooks
+
+This project uses [pre-commit](https://pre-commit.com/) to enforce consistent code quality and syntax.
+
+### Setup
+
+1. Install pre-commit and related tools:
+
+```bash
+pip install pre-commit black isort flake8
+```
+
+2. Install pre-commit hooks:
+
+```bash
+pre-commit install
+```
+
+3. Run manually (optional):
+
+```bash
+pre-commit run --all-files
+```
 
 ## Cleanup
 
@@ -91,7 +113,7 @@ kind delete cluster --name pulumi-kind
 
 - Add IoT telemetry generator and ingestion service
 - Integrate Loki and Tempo for full observability stack
-- Extend GitHub Actions workflow to support PR-based previews and multi-environment deployment
+- Extend GitHub Actions workflows for multi-environment support and service-level validation
 
 ## License
 
