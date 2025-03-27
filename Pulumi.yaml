@@ -1,0 +1,5 @@
+---
+name: kind-pulumi
+runtime:
+  name: python
+description: Pulumi project for provisioning kind cluster with Istio, Backstage, Grafana, and Eclipse Ditto
