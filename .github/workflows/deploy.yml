@@ -1,5 +1,3 @@
-name: Pulumi CI with kind
-
 on:
   push:
     branches:
@@ -9,6 +7,10 @@ on:
 jobs:
   pulumi:
     runs-on: ubuntu-latest
+
+    env:
+      PULUMI_BACKEND_URL: file://~/.pulumi
+      PULUMI_CONFIG_PASSPHRASE: "notasecret"
 
     steps:
       - name: Checkout repository
@@ -40,9 +42,9 @@ jobs:
           source venv/bin/activate
           pip install -r requirements.txt
 
-      - name: Preview Pulumi deployment
+      - name: Pulumi preview
         run: |
           source venv/bin/activate
           pulumi login --local
-          pulumi stack init dev || true
-          pulumi preview
+          pulumi stack select dev || pulumi stack init dev
+          pulumi up --yes

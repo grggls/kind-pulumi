@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+venv/
+.env
+.envrc
+
+# Pulumi
+.Pulumi.*
+Pulumi.dev.yaml
+pulumi.*
+*.bak
+
+# Node.js (in case of Backstage plugins or Helm chart tooling)
+node_modules/
+package-lock.json
+
+# Helm / Kubernetes
+*.tgz
+charts/
+kubeconfig
+.kube/
+.kind-config.yaml
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Pre-commit / cache
+.pre-commit-config.yaml
+.pre-commit/
+.cache/
+
+# VS Code settings
+.vscode/

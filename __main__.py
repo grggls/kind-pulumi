@@ -1,14 +1,12 @@
-from pathlib import Path
-
-main_py_exported = """import pulumi
-from pulumi_kubernetes.helm.v3 import Chart, ChartOpts, FetchOpts
+import pulumi
 from pulumi_kubernetes.core.v1 import Namespace
+from pulumi_kubernetes.helm.v3 import Chart, ChartOpts, FetchOpts
 
 # Define namespaces
 istio_ns = Namespace("istio-system", metadata={"name": "istio-system"})
 grafana_ns = Namespace("grafana", metadata={"name": "grafana"})
 backstage_ns = Namespace("backstage", metadata={"name": "backstage"})
-ditto_ns = Namespace("eclipse-ditto", metadata={"name": "eclipse-ditto"})
+hono_ns = Namespace("hono", metadata={"name": "hono"})
 
 # Istio
 istio = Chart(
@@ -19,8 +17,8 @@ istio = Chart(
         fetch_opts=FetchOpts(
             repo="https://istio-release.storage.googleapis.com/charts"
         ),
-        namespace=istio_ns.metadata["name"]
-    )
+        namespace=istio_ns.metadata["name"],
+    ),
 )
 pulumi.export("istio_status", "Istio chart deployed")
 
@@ -30,11 +28,9 @@ grafana = Chart(
     ChartOpts(
         chart="grafana",
         version="6.58.7",
-        fetch_opts=FetchOpts(
-            repo="https://grafana.github.io/helm-charts"
-        ),
-        namespace=grafana_ns.metadata["name"]
-    )
+        fetch_opts=FetchOpts(repo="https://grafana.github.io/helm-charts"),
+        namespace=grafana_ns.metadata["name"],
+    ),
 )
 pulumi.export("grafana_status", "Grafana chart deployed")
 
@@ -43,26 +39,19 @@ backstage = Chart(
     "backstage",
     ChartOpts(
         chart="backstage",
-        fetch_opts=FetchOpts(
-            repo="https://backstage.github.io/charts"
-        ),
-        namespace=backstage_ns.metadata["name"]
-    )
+        fetch_opts=FetchOpts(repo="https://backstage.github.io/charts"),
+        namespace=backstage_ns.metadata["name"],
+    ),
 )
 pulumi.export("backstage_status", "Backstage chart deployed")
 
-# Eclipse Ditto
-eclipse_ditto = Chart(
-    "eclipse-ditto",
+# Eclipse Hono
+hono = Chart(
+    "hono",
     ChartOpts(
-        chart="ditto",
-        fetch_opts=FetchOpts(
-            repo="https://eclipse-ditto.github.io/helm-charts"
-        ),
-        namespace=ditto_ns.metadata["name"]
-    )
+        chart="hono",
+        fetch_opts=FetchOpts(repo="https://eclipse.org/packages/charts"),
+        namespace=hono_ns.metadata["name"],
+    ),
 )
-pulumi.export("eclipse_ditto_status", "Eclipse Ditto chart deployed")
-"""
-
-Path("__main__.py").write_text(main_py_exported)
+pulumi.export("hono_status", "Eclipse Hono chart deployed")

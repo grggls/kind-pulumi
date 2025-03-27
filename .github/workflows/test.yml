@@ -1,5 +1,4 @@
-name: Validate Services
-
+# Update test.yml to validate Eclipse Hono instead of KubeEdge
 on:
   workflow_run:
     workflows: ["Pulumi CI with kind"]
@@ -29,7 +28,7 @@ jobs:
           kubectl wait --for=condition=available --timeout=180s deployment --all -n istio-system
           kubectl wait --for=condition=available --timeout=180s deployment --all -n grafana
           kubectl wait --for=condition=available --timeout=180s deployment --all -n backstage
-          kubectl wait --for=condition=available --timeout=180s deployment --all -n eclipse-ditto
+          kubectl wait --for=condition=available --timeout=180s deployment --all -n hono
 
       - name: Verify service endpoints
         run: |
@@ -40,7 +39,7 @@ jobs:
           kubectl port-forward svc/istio-ingressgateway -n istio-system 15014:15014 &
           kubectl port-forward svc/grafana -n grafana 3000:3000 &
           kubectl port-forward svc/backstage -n backstage 7000:7000 &
-          kubectl port-forward svc/ditto -n eclipse-ditto 8080:8080 &
+          kubectl port-forward svc/hono -n hono 8080:8080 &
           sleep 20
 
           curl -f http://localhost:15014 || exit 1
